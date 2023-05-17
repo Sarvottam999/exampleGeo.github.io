@@ -1,53 +1,64 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
+   <head>
+      <title>Leaflet Polygons</title>
+       <!-- <link type="text/css" rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+      <script src = "https://unpkg.com/leaflet/dist/leaflet.js"></script> -->
+      <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+      <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+      <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-geodesy/v0.1.0/leaflet-geodesy.js'></script>
+      <script src="
+      https://cdn.jsdelivr.net/npm/leaflet-geometryutil@0.10.2/src/leaflet.geometryutil.min.js
+      "></script>
+      
+      <style>
+         #map{
+            max-width: 100%;
+            ;
+            height: 700px;
+            /* width: 700px; */
+         }
+      </style>
+    </head>
+   
+   <body>
+ 
+      <h1> map view</h1>
+      <div id = "map" ></div>
+      <h1>Longitude and Latitude Form</h1>
+      <form id="locationForm">
+        <label for="place1">Place 1 : </label>
+        <input type="number" id="Place1latitude" name="Place1latitude" required placeholder="Place1latitude" step="any">
+        <input type="number" id="Place1longitude" name="Place1longitude" required placeholder="Place1longitude" step="any">
 
-<body>
-    <button id="find-me">Show my location</button><br />
-    <p id="status"></p>
-    <a id="map-link" target="_blank"></a>
+    <br>
+        <label for="place2">Place 2 : </label>
+        <input type="number" id="Place2latitude" name="Place2latitude" required placeholder="Place2latitude" step="any">
+        <input type="number" id="Place2longitude" name="Place2longitude" required placeholder="Place2longitude" step="any">
 
-</body>
-<script>
-    function geoFindMe() {
+    
+        <button type="submit">Submit</button>
+      </form>
+      
+   </body>
+   <script>
+      var map = L.map('map').setView([51.505, -0.09], 13);
 
-const status = document.querySelector('#status');
-const mapLink = document.querySelector('#map-link');
+    
+// add tile layer
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+  maxNativeZoom:19,
+        maxZoom:25
+}).addTo(map);
+ 
+   </script>
+   <!-- <script src="p4_single_pattern.js"></script> -->
+   <script src="p4.js"></script>
 
-mapLink.href = '';
-mapLink.textContent = '';
+   
+</html> 
 
-function success(position) {
-  const latitude  = position.coords.latitude;
-  const longitude = position.coords.longitude;
-
-  status.textContent = '';
-  mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
-  mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
-}
-
-function error() {
-  status.textContent = 'Unable to retrieve your location';
-}
-
-if (!navigator.geolocation) {
-  status.textContent = 'Geolocation is not supported by your browser';
-} else {
-  status.textContent = 'Locating…';
-  navigator.geolocation.getCurrentPosition(success, error);
-}
-
-}
-
-document.querySelector('#find-me').addEventListener('click', geoFindMe);
-
-
-</script>
-
-</html>
